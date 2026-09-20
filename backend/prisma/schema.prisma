@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  leads     Lead[]
+}
+
+model Lead {
+  id              String          @id @default(uuid())
+  name            String
+  email           String
+  company         String?
+  message         String?
+  priority        String?         // e.g., "high", "medium", "low"
+  aiReason        String?
+  aiSummary       String?
+  followUpMessage String?
+  crmContactId    String?
+  crmStage        String?
+  idempotencyKey  String?         @unique
+  processingStatus String         @default("PENDING")
+  lastError       String?
+  lastErrorType   String?
+  processingAttempts Int          @default(0)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  aiProcessed           Boolean @default(false)
+  notificationProcessed Boolean @default(false)
+  crmContactProcessed   Boolean @default(false)
+  crmStageProcessed     Boolean @default(false)
+
+  userId          String?
+  user            User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  interactions    AIInteraction[]
+
+  @@index([userId])
+
+  @@index([email])
+  @@index([priority])
+  @@index([createdAt])
+}
+
+model AIInteraction {
+  id             String   @id @default(uuid())
+  leadId         String
+  input          String
+  output         String?
+  status         String
+  error          String?
+  idempotencyKey String?  @unique
+  createdAt      DateTime @default(now())
+
+  lead           Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+}
