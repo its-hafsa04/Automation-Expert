@@ -19,7 +19,10 @@ async function parseJsonResponse(res) {
       (Array.isArray(data.details) && data.details[0]?.message) ||
       res.statusText ||
       'Request failed';
-    throw new Error(message);
+    const error = new Error(message);
+    error.status = res.status;
+    error.data = data;
+    throw error;
   }
   return data;
 }

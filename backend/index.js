@@ -96,7 +96,7 @@ app.get('/api/leads/:leadId/qualification', requireAuth, async (req, res) => {
       return res.status(404).json({ error: 'Lead not found' });
     }
 
-    return res.status(lead.processingStatus === 'FAILED' ? 422 : (lead.aiProcessed ? 200 : 202)).json(lead);
+    return res.status(lead.aiProcessed || lead.processingStatus === 'FAILED' ? 200 : 202).json(lead);
   } catch (error) {
     console.error('Error reading lead qualification status.');
     return res.status(500).json({ error: 'Internal server error' });

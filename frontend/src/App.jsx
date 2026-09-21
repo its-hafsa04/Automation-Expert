@@ -52,6 +52,10 @@ function App() {
       setQualification(data);
       return data;
     } catch (err) {
+      if (err.status === 422 && err.data?.processingStatus === 'FAILED') {
+        setQualification(err.data);
+        return err.data;
+      }
       setQualification(null);
       if (!silent) setQualError(err.message);
       throw err;
