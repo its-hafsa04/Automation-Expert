@@ -149,7 +149,7 @@ function App() {
         <div className="header-bar">
           <p className="eyebrow">Lead automation</p>
           <div className="session">
-            <span className="session-email">{user?.email}</span>
+            <span className="session-email">{user?.name}</span>
             <button type="button" className="secondary session-logout" onClick={logout}>
               Sign out
             </button>
