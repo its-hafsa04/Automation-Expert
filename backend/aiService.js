@@ -6,7 +6,7 @@ const logger = require('./logger');
 const { AppError, externalError } = require('./errors');
 
 const activeLeads = new Set();
-const geminiModelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+const geminiModelName = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
 
 const aiResponseSchema = z.object({
   priority: z.enum(['HIGH', 'MEDIUM', 'LOW']),
