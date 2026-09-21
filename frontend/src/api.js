@@ -1,6 +1,6 @@
 import { getToken } from './authStorage';
 
-const API_BASE = import.meta.env.VITE_API_URL ?? '';
+const API_BASE = import.meta.env.VITE_API_URL ?? 'https://automation-expert-production.up.railway.app';
 
 function authHeaders(extra = {}) {
   const headers = { ...extra };
